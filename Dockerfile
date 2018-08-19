@@ -21,4 +21,4 @@ EXPOSE 443
 USER app
 COPY . /app/src
 
-CMD [ "python", "./main.py" ]
+CMD [ "pipenv", "run", "python", "main.py" ]
