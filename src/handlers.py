@@ -40,7 +40,7 @@ def hash_photo(update):
             Image.open(
                 io.BytesIO(photo.get_file().download_as_bytearray())
             ),
-            hash_size=10
+            hash_size=13
         ))
         if not h in res:
             res.append(h)
