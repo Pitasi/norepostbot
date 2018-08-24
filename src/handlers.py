@@ -90,10 +90,14 @@ def url_handler(bot, update):
         Got an url, check if there are links and store them. Or alert if the
         link was already seen in the same chat.
     """
+    checked_set = []
     entities = update.message.parse_entities(types='url')
     for k in entities:
         url = normalize_url(entities[k])
+        if len(url) < 15 or url in checked_set:
+            return
         check_hash(update, hash(url))
+        checked_set = []
 
 
 def text_link_handler(bot, update):
@@ -101,7 +105,11 @@ def text_link_handler(bot, update):
         Got a text link, check if there are links and store them. Or alert if
         the link was already seen in the same chat.
     """
+    checked_set = []
     for entity in update.message.entities:
         if entity.url:
             url = normalize_url(entity.url)
+            if len(url) < 15 or url in checked_set:
+                return
             check_hash(update, hash(url))
+            checked_set.append(url)
