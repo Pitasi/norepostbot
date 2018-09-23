@@ -10,7 +10,11 @@ RUN pip install pipenv
 EXPOSE 443
 
 # Creating environment
-COPY . /app/src
+COPY Pipfile /app/src
+COPY Pipfile.lock /app/src
 RUN pipenv install
+
+# Copy app
+COPY . /app/src
 
 CMD [ "pipenv", "run", "python", "main.py" ]
