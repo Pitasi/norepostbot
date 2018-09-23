@@ -81,8 +81,9 @@ def forwarded_handler(bot, update):
         check_hash(update, hash_photo(update))
     else:
         text = update.message.text
-        digest = hash(from_id, text)
-        check_hash(update, digest)
+        if text and len(text) > 10:
+            digest = hash(from_id, text)
+            check_hash(update, digest)
 
 
 def url_handler(bot, update):
@@ -113,3 +114,17 @@ def text_link_handler(bot, update):
                 return
             check_hash(update, hash(url))
             checked_set.append(url)
+
+
+def delete_handler(bot, update):
+    if update.message.reply_to_message.from_user.id != bot.id:
+        return
+    try:
+        update.message.reply_to_message.delete()
+    except Exception:
+        pass
+
+    try:
+        update.message.delete()
+    except Exception:
+        pass

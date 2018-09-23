@@ -1,8 +1,8 @@
 from os import getenv
 import logging
-from telegram.ext import Updater, MessageHandler, Filters
+from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
 from src.handlers import (
-    url_handler, text_link_handler, forwarded_handler, photo_handler
+    url_handler, text_link_handler, forwarded_handler, photo_handler, delete_handler
 )
 
 
@@ -31,6 +31,7 @@ def main():
     updater = Updater(TOKEN)
     dp = updater.dispatcher
 
+    dp.add_handler(CommandHandler('delete', delete_handler))
     dp.add_handler(MessageHandler(Filters.photo, photo_handler))
     dp.add_handler(MessageHandler(Filters.entity("url"), url_handler))
     dp.add_handler(
